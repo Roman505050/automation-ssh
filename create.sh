@@ -19,7 +19,6 @@ echo "Creating SSH key pairs for the following users: $@"
 
 # Defining the variables
 SSH_DIR="/home/$1/.ssh"
-COMMENT_SSH="$1@$(hostname)"
 
 # Loop through the users and create the .ssh directory
 for user in "$@"; do
@@ -35,7 +34,7 @@ done
 for user in "$@"; do
     SSH_DIR="/home/$user/.ssh"
     if [ ! -f "$SSH_DIR/id_rsa" ]; then
-        ssh-keygen -t rsa -b 4096 -C "$COMMENT_SSH" -f "$SSH_DIR/id_rsa" -N ""
+        ssh-keygen -t rsa -b 4096 -C "$user@$(hostname)" -f "$SSH_DIR/id_rsa" -N ""
         chown "$user:$user" "$SSH_DIR/id_rsa" "$SSH_DIR/id_rsa.pub"
         chmod 600 "$SSH_DIR/id_rsa"
         chmod 644 "$SSH_DIR/id_rsa.pub"
